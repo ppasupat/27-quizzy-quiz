@@ -46,16 +46,16 @@ body {
 #game {
   position: relative;
   background-color: white;
-  width: 800px;
-  height: 500px;
+  width: 500px;
+  height: 700px;
   overflow: hidden;
   transform-origin: top left;
 }
 
 #scene-preload, #scene-main {
   position: absolute;
-  width: 800px;
-  height: 500px;
+  width: 500px;
+  height: 700px;
   left: 0; top: 0;
 }
 

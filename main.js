@@ -4,7 +4,7 @@ $(function () {
   const DEBUG = false;
   const LEVEL_DATA = [
   ];
-  const SCREEN_WIDTH = 800, SCREEN_HEIGHT = 500;
+  const SCREEN_WIDTH = 500, SCREEN_HEIGHT = 700;
   let currentLevel = 0;
 
   // ################################
