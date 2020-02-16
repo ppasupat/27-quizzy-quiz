@@ -52,7 +52,8 @@ body {
   transform-origin: top left;
 }
 
-#scene-preload, #scene-main {
+div.scene {
+  display: none;
   position: absolute;
   width: 500px;
   height: 700px;
@@ -62,14 +63,38 @@ body {
 /* ################################ */
 /* preload scene */
 
+#scene-preload > div {
+  height: 100%;
+}
+
 #pane-loading {
   font-size: 30px;
   text-align: center;
 }
 
 /* ################################ */
-/* main scene */
+/* menu scene */
 
-#scene-main {
-  display: none;
+/* ################################ */
+/* game scene */
+
+#pane-question {
+  position: absolute;
+  top: 100px; left: 0;
+  width: 100%; height: 250px;
+  border: 1px solid #ddd;
+  font-size: 48px;
 }
+
+#pane-answers {
+  position: absolute;
+  top: 350px; left: 0;
+  width: 100%;
+}
+
+.button-answer {
+  margin: 10px;
+  height: 100px;
+  font-size: 40px;
+}
+
