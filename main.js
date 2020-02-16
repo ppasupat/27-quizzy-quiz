@@ -128,9 +128,9 @@ $(function () {
   // ################################
   // Main menu
 
-  $('.button-start').click(function (e) {
+  $('#button-start').click(function (e) {
     let thisButton = $(this);
-    currentMode = thisButton.data('mode');
+    currentMode = "easy";   // TODO: Set this on the main menu
     currentLevelNum = 0;
     showScene('game');
     setupLevel();
@@ -168,11 +168,7 @@ $(function () {
   function decrementPreload () {
     numResourcesLeft--;
     if (numResourcesLeft == 0) {
-      $('#pane-loading')
-        .empty()
-        .append($('<div class=button>').text('เริ่มเล่น!').click(function () {
-          showScene('menu');
-        }));
+      showScene('menu');
     } else {
       $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
     }
