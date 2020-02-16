@@ -2,10 +2,8 @@ $(function () {
   "use strict";
 
   const DEBUG = false;
-  const LEVEL_DATA = [
-  ];
   const SCREEN_WIDTH = 500, SCREEN_HEIGHT = 700;
-  let currentMode = null, currentLevelNum = 0, currentLevel = null;
+  const FRAME_RATE = 25;
 
   const LEVELS = [
     'simple_arith',
@@ -14,12 +12,31 @@ $(function () {
   ];
   const NUM_EASY_LEVELS = 3;
 
+  let currentMode = null, currentLevelNum = 0, currentLevel = null;
+
+  function getTimeLimit() {
+    if (currentMode == "easy")
+      return 3000;
+    else
+      return 1800;
+  }
+
   // ################################
   // Utilities
 
   function showScene(name) {
     $('.scene').hide();
     $('#scene-' + name).show();
+  }
+
+  function showCover(name) {
+    if (!name) {
+      $('#cover-wrapper').hide();
+    } else {
+      $('#cover-wrapper').show();
+      $('.cover').hide();
+      $('#cover-' + name).show();
+    }
   }
 
   // ################################
@@ -41,16 +58,17 @@ $(function () {
     // Update the HUD
     $('#pane-progress').text(
       'Level ' + (currentLevelNum + 1) + ' / ' + NUM_EASY_LEVELS);
+    startTimer(getTimeLimit());
   };
 
   function answerClickHandler(e) {
+    stopTimer();
     let thisAnswer = $(this);
     let index = +thisAnswer.data('index');
     let is_correct = currentLevel.answers[index][0];
     if (is_correct) {
       // The player failed to choose a wrong answer.
-      alert('Wrong!');
-      setupLevel();
+      showCover('fail');
     } else {
       // The player correctly chose a wrong answer.
       currentLevelNum++;
@@ -65,7 +83,43 @@ $(function () {
   }
 
   // ################################
+  // Timer
+
+  let timerHandler = null, timerStartTime = null, timerAmount = null;
+
+  function startTimer(amountMs) {
+    stopTimer();
+    timerStartTime = Date.now();
+    timerAmount = amountMs;
+    timerHandler = window.setInterval(updateTimer, 1000. / FRAME_RATE);
+    updateTimer();
+  }
+
+  function updateTimer() {
+    let remaining = timerAmount - (Date.now() - timerStartTime);
+    if (remaining > 0) {
+      $('#timer-bar').width(remaining * SCREEN_WIDTH / timerAmount);
+    } else {
+      $('#timer-bar').width(0);
+      stopTimer();
+      showCover('fail');
+    }
+  }
+
+  function stopTimer() {
+    if (timerHandler !== null) {
+      window.clearInterval(timerHandler);
+      timerHandler = null;
+    }
+  }
+
+  // ################################
   // Special events
+
+  $('#button-fail-ok').click(function (e) {
+    setupLevel();
+    showCover(false);
+  });
 
   function showEasyWin() {
     showScene('easy-win');

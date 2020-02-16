@@ -52,12 +52,20 @@ body {
   transform-origin: top left;
 }
 
-div.scene {
+div.scene, #cover-wrapper {
   display: none;
   position: absolute;
   width: 500px;
   height: 700px;
   left: 0; top: 0;
+}
+
+#cover-wrapper {
+  background-color: rgba(250, 230, 230, 0.8);
+}
+
+.cover {
+  height: 100%;
 }
 
 /* ################################ */
@@ -98,3 +106,12 @@ div.scene {
   font-size: 40px;
 }
 
+#pane-timer {
+  height: 40px;
+  width: 100%;
+}
+
+#timer-bar {
+  height: 100%;
+  background-color: blue;
+}
