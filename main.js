@@ -5,7 +5,6 @@ $(function () {
   const FRAME_RATE = 25;
 
   const LEVELS = [
-    'x3_logo',
     'simple_arith',
     'day_of_the_week',
     'province',
@@ -30,6 +29,9 @@ $(function () {
     'x3_hormone',
     'x3_fruit',
     'x3_spelling',
+    'x3_logo',
+    'x3_logo',
+    'x3_logo',
   ];
   const NUM_EASY_LEVELS = LEVELS.length;
 
