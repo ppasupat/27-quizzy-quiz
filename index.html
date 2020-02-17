@@ -16,7 +16,7 @@
       <div id=scene-menu class=scene>
         <h1 id=title>จงตอบผิด</h1>
         <div id=button-start-wrapper class=centerize>
-          <div id=button-start class=button>เริ่มเล่น</div>
+          <div id=button-start class="button button-big">เริ่มเล่น</div>
         </div>
       </div>
       <div id=scene-game class=scene>
@@ -33,8 +33,11 @@
         </div>
       </div>
       <div id=scene-easy-win class=scene>
-        You win!
-        <div class="button button-exit">Back to Menu</div>
+        <div class="fullscreen centerize">
+          <h1 id=easy-win-title>ยินดีด้วย</h1>
+          <img id=easy-win-image src="img/cake.png">
+          <div class="button button-big button-exit">กลับเมนู</div>
+        </div>
       </div>
       <div id=scene-preload class=scene>
         <div class=centerize>
@@ -43,7 +46,10 @@
       </div>
       <div id=cover-wrapper>
         <div id=cover-fail class="cover centerize">
-          <div id=fail-image></div>
+          <div id=fail-image>
+            <img id=fail-image-timeout src="img/time.png">
+            <img id=fail-image-correct src="img/checkmark.png">
+          </div>
           <p id=fail-line-0></p>
           <p id=fail-line-1></p>
           <div id=button-fail-ok class=button>OK</div>

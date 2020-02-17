@@ -9,7 +9,7 @@ $(function () {
     'simple_arith',
     'simple_arith',
   ];
-  const NUM_EASY_LEVELS = 3;
+  const NUM_EASY_LEVELS = 1;
 
   let currentMode = null, currentLevelNum = 0, currentLevel = null;
 
@@ -154,7 +154,8 @@ $(function () {
 
   function showFail(failType) {
     let message = randChoice(FAIL_MESSAGES[failType]);
-    $('#fail-image').removeClass().addClass(failType);
+    $('#fail-image > img').hide();
+    $('#fail-image-' + failType).show();
     $('#fail-line-0').text(message[0]);
     $('#fail-line-1').text(message[1]);
     showCover('fail');

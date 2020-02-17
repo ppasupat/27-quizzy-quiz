@@ -42,6 +42,10 @@ body {
 .button:active {
   background-color: #55b;
 }
+.button.button-big {
+  padding: 20px 50px;
+  font-size: 50px;
+}
 
 #game {
   position: relative;
@@ -61,10 +65,7 @@ div.scene, #cover-wrapper {
   left: 0; top: 0;
 }
 
-#cover-wrapper {
-}
-
-.cover {
+.cover, .fullscreen {
   height: 100%;
 }
 
@@ -102,11 +103,6 @@ div.scene, #cover-wrapper {
   position: absolute;
   top: 400px; left: 0;
   height: 150px; width: 100%;
-}
-
-#button-start {
-  padding: 20px 50px;
-  font-size: 50px;
 }
 
 /* ################################ */
@@ -171,12 +167,6 @@ div.scene, #cover-wrapper {
 #fail-image {
   width: 72px; height: 72px;
 }
-#fail-image.correct {
-  background: url('img/checkmark.png');
-}
-#fail-image.timeout {
-  background: url('img/time.png');
-}
 #fail-line-0 {
   margin: 20px 0;
   font-size: 48px;
@@ -196,4 +186,18 @@ div.scene, #cover-wrapper {
   color: white;
   font-size: 120px;
   font-weight: bold;
+}
+
+#easy-win-title {
+  font-size: 80px;
+  position: relative;
+  animation: title-fadein-win 2s;
+}
+@keyframes title-fadein-win {
+  from { opacity: 0; top: -50px; }
+  to { opacity: 1; top: 0; }
+}
+
+#easy-win-image {
+  margin: 30px 0;
 }
