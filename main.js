@@ -33,15 +33,15 @@ $(function () {
     'x3_logo',
     'x3_logo',
   ];
-  const NUM_EASY_LEVELS = LEVELS.length;
+  const NUM_EASY_LEVELS = 20, NUM_HARD_LEVELS = 27;
 
   let currentMode = null, currentLevelNum = 0, currentLevel = null;
 
   function getTimeLimit() {
-    if (currentMode == "easy")
-      return 4000;
+    if (currentMode === "easy")
+      return 3000;
     else
-      return 2500;
+      return 2000;
   }
 
   // ################################
@@ -80,7 +80,7 @@ $(function () {
         .append(answer[1])
         .click(answerClickHandler));
     });
-    $('#pane-answers').toggleClass('grid', currentLevel.answers.length == 4);
+    $('#pane-answers').toggleClass('grid', currentLevel.answers.length === 4);
     // Update the HUD
     $('#pane-progress').text(
       'Level ' + (currentLevelNum + 1) + ' / ' + NUM_EASY_LEVELS);
@@ -92,24 +92,26 @@ $(function () {
     let thisAnswer = $(this);
     let index = +thisAnswer.data('index');
     let is_correct = currentLevel.answers[index][0];
-    if (is_correct) {
-      // The player failed to choose a wrong answer.
-      showCover();
-      thisAnswer.addClass('correct');
-      window.setTimeout(function () {
-        showFail('correct');
-      }, 500);
-    } else {
-      // The player correctly chose a wrong answer.
-      thisAnswer.addClass('incorrect');
+    thisAnswer.addClass(is_correct ? 'correct' : 'incorrect');
+    let should_correct = (currentMode === "easy");
+    if (is_correct === should_correct) {
+      // The player followed the instruction
       currentLevelNum++;
-      if (currentLevelNum == NUM_EASY_LEVELS) {
-        // Win!
+      if (currentMode === 'easy' && currentLevelNum === NUM_EASY_LEVELS) {
         showEasyWin();
+        return;
+      } else if (currentMode === 'hard' && currentLevelNum === NUM_HARD_LEVELS) {
+        showHardWin();
         return;
       } else {
         setupLevel();
       }
+    } else {
+      // The player did not follow the instruction
+      showCover();
+      window.setTimeout(function () {
+        showFail(is_correct ? 'correct' : 'incorrect');
+      }, 500);
     }
   }
 
@@ -148,11 +150,24 @@ $(function () {
   // Special screens
 
   const FAIL_MESSAGES = {
+    incorrect: [
+      ["คุณตอบผิด", "ลองใหม่นะ"],
+      ["จงตอบถูก", "อย่าตอบผิด"],
+      ["ผิดนะคร้าบ", "น่าเสียดายจริง ๆ"],
+      ["ตอบผิดคะ", "ลองใหม่นะค่ะ"],
+      ["ไม่ถูกต้อง", "แง"],
+      ["ผิดเป็นครู", "คำตอบนี้เป็นครู"],
+      ["ข้อที่ถูก", "คือข้ออื่น"],
+      ["ยินดีด้วย", "ซะเมื่อไร"],
+      ["ข้อที่ถูกก็มีนะ", "แต่คุณไม่ได้เลือกมัน"],
+      ["ผิดนะจ๊ะ", "จริงจา"],
+      ["ถูก", "ต้ม"],
+    ],
     correct: [
       ["คุณตอบถูก", "ซึ่งเป็นสิ่งที่ผิด"],
       ["คุณตอบถูก", "ซึ่งไม่ใช่สิ่งที่ถูก"],
       ["จงตอบผิด", "อย่าตอบถูก"],
-      ["คำตอบถูก", "แต่เกมนี้ให้ตอบผิด"],
+      ["คำตอบถูก", "แต่เขาให้ตอบผิด"],
       ["ถูกต้องนะคร้าบ", "แต่เขาให้ตอบผิด"],
       ["ถูกต้องคะ", "ลองใหม่นะค่ะ"],
       ["ตอบไม่ผิดนะ", "แต่ผิดคำสั่ง"],
@@ -161,7 +176,6 @@ $(function () {
       ["ผิดเป็นครู", "คำตอบนี้ไม่เป็นครู"],
       ["ถูกแล้วหละ", "ถูกหลอกให้ตอบถูก"],
       ["ข้อที่ผิด", "คือข้ออื่น"],
-      ["ถูก", "ต้ม"],
     ],
     timeout: [
       ["หมดเวลา", "สนุกแล้วสิ"],
@@ -177,9 +191,21 @@ $(function () {
     ],
   };
 
+  let penaltyToApply = 0, semiPenalty = false;
+
   function showFail(failType) {
+    penaltyToApply = 0;
+    if (currentMode === 'hard' && currentLevelNum !== 0) {
+      if (semiPenalty) {
+        penaltyToApply = 1;
+        semiPenalty = false;
+      } else {
+        semiPenalty = true;
+      }
+    }
+    // Show message
     let message;
-    if (failType == "correct" && currentLevel.message) {
+    if (failType !== "timeout" && currentLevel.message) {
       message = currentLevel.message;
     } else {
       message = randChoice(FAIL_MESSAGES[failType]);
@@ -188,10 +214,16 @@ $(function () {
     $('#fail-image-' + failType).show();
     $('#fail-line-0').text(message[0]);
     $('#fail-line-1').text(message[1]);
+    if (penaltyToApply !== 0) {
+      $('#fail-line-2').show().text('ลงโทษ! ถอยหลัง ' + penaltyToApply + ' ข้อ');
+    } else {
+      $('#fail-line-2').hide();
+    }
     showCover('fail');
   }
 
   $('#button-fail-ok').click(function (e) {
+    currentLevelNum -= penaltyToApply;
     setupLevel();
     hideCover();
   });
@@ -200,12 +232,16 @@ $(function () {
     showScene('easy-win');
   }
 
+  function showHardWin() {
+    showScene('hard-win');
+  }
+
   // ################################
   // Main menu
 
   $('#button-start').click(function (e) {
     let thisButton = $(this);
-    currentMode = "easy";   // TODO: Set this on the main menu
+    currentMode = $('#game').hasClass('hard') ? 'hard' : 'easy';
     currentLevelNum = 0;
     showCountdown();
   });
@@ -215,9 +251,9 @@ $(function () {
     let countdownCount = 4;
     function decrementCountdown() {
       countdownCount--;
-      if (countdownCount == 0) {
+      if (countdownCount === 0) {
         setupLevel();
-        showScene('game');
+        showScene('quiz');
         hideCover();
       } else {
         $('#countdown-number').text(countdownCount);
@@ -226,6 +262,10 @@ $(function () {
     }
     decrementCountdown();
   }
+
+  $('#checkbox-hard-wrapper').click(function (e) {
+    $('#game').toggleClass('hard');
+  });
 
   $('.button-exit').click(function (e) {
     showScene('menu');
@@ -252,6 +292,7 @@ $(function () {
 
   const imageList = [
     "img/checkmark.png",
+    "img/crossmark.png",
     "img/time.png",
   ];
   let numResourcesLeft = imageList.length;
@@ -259,7 +300,7 @@ $(function () {
 
   function decrementPreload () {
     numResourcesLeft--;
-    if (numResourcesLeft == 0) {
+    if (numResourcesLeft === 0) {
       showScene('menu');
     } else {
       $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');

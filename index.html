@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>27</title>
+  <title>Quizzy Quiz</title>
   <link href="https://fonts.googleapis.com/css?family=Bai+Jamjuree&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
   <script type="text/javascript" src="jquery.min.js"></script>
@@ -13,13 +13,19 @@
 <body>
   <div id=game-wrapper>
     <div id=game>
+      <div id=hard-bg></div>
       <div id=scene-menu class=scene>
-        <h1 id=title>จงตอบผิด</h1>
+        <h1 id=title-easy>จงตอบถูก</h1>
+        <h1 id=title-hard><span class=emp>อย่า</span>ตอบถูก</h1>
         <div id=button-start-wrapper class=centerize>
           <div id=button-start class="button button-big">เริ่มเล่น</div>
         </div>
+        <div id=checkbox-hard-wrapper class=centerize>
+          <div id=checkbox-hard>X</div>
+          <div>โหมด<span class=emp><strong>นรก</strong></span></div>
+        </div>
       </div>
-      <div id=scene-game class=scene>
+      <div id=scene-quiz class=scene>
         <div id=pane-hud>
           <div id=pane-progress></div>
           <div id=pane-timer>
@@ -39,6 +45,13 @@
           <div class="button button-big button-exit">กลับเมนู</div>
         </div>
       </div>
+      <div id=scene-hard-win class=scene>
+        <div class="fullscreen centerize">
+          <h1 id=easy-win-title>ยินดีด้วย</h1>
+          <img id=easy-win-image src="img/cake.png">
+          <div class="button button-big button-exit">กลับเมนู</div>
+        </div>
+      </div>
       <div id=scene-preload class=scene>
         <div class=centerize>
           <div id=pane-loading>Loading ...</div>
@@ -49,9 +62,11 @@
           <div id=fail-image>
             <img id=fail-image-timeout src="img/time.png">
             <img id=fail-image-correct src="img/checkmark.png">
+            <img id=fail-image-incorrect src="img/crossmark.png">
           </div>
           <p id=fail-line-0></p>
           <p id=fail-line-1></p>
+          <p id=fail-line-2></p>
           <div id=button-fail-ok class=button>OK</div>
         </div>
         <div id=cover-countdown class="cover centerize">
