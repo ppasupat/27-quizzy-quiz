@@ -98,6 +98,18 @@ LGs['simple_arith_parity_2'] = function () {
   };
 };
 
+// Day of the Week
+LGs['day_of_the_week'] = function () {
+  let names = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัส", "วันศุกร์", "วันเสาร์"];
+  let d = new Date(), a = d.getDay();
+  let b = randRange(6);
+  if (b >= a) b++;
+  return {
+    question: $('<p>').append("วันนี้วันอะไร"),
+    answers: [[true, names[a]], [false, names[b]]],
+  }
+};
+
 // Thai province
 LGs['province'] = function () {
   let a = randChoice([
@@ -371,6 +383,42 @@ LGs['x3_fruit'] = function () {
   };
 }
 
+// Hormones
+LGs['x3_hormone'] = function () {
+  let corrects = randTwoChoices([
+    "Adrenaline", "Aldosterone", "ACTH",
+    "Calcitonin", "Cortisol", "Estrogen", "Gastrin",
+    "Glucagon", "Growth Hormone", "Insulin", "Leptin",
+    "Melatonin", "Norepinephrine", "Oxytocin", "Progesterone",
+    "Prolactin", "Serotonin", "Testosterone", "Thyroxine",
+  ]);
+  let wrong = randChoice([
+    "Auxin", "Cytokinin", "Gibberellin", "Ethylene",
+  ]);
+  return {
+    question: $('<p>').append("ข้อใดเป็นชื่อ<br><span class=emp>ฮอร์โมนในมนุษย์</span>"),
+    answers: [[true, corrects[0]], [true, corrects[1]], [false, wrong]],
+  };
+}
+
+// Hormones
+LGs['x3_spelling'] = function () {
+  let corrects = randTwoChoices([
+    "กะเพรา", "ไข่มุก", "ขาดดุล", "ตำรับ",
+    "ทะนุถนอม", "ทแยง", "นวัตกรรม", "บำเหน็จ",
+    "ไผท", "อนุญาต", "อัญชัน", "สำอาง", "เสลด",
+  ]);
+  let wrong = randChoice([
+    "กระเพรา", "ไข่มุข", "ขาดดุลย์", "ตำหรับ",
+    "ทนุถนอม", "ทะแยง", "นวัฒกรรม", "บำเน็จ",
+    "ผไท", "อนุญาติ", "อัญชัญ", "สำอางค์", "สเลด",
+  ]);
+  return {
+    question: $('<p>').append("คำใด<span class=emp>สะกดถูก</span>"),
+    answers: [[true, corrects[0]], [true, corrects[1]], [false, wrong]],
+  };
+}
+
 // Animal
 LGs['x3_animal'] = function () {
   let bank = {
@@ -401,5 +449,13 @@ LGs['x3_animal'] = function () {
   return {
     question: $('<p>').append("สัตว์ใดมี <span class=emp>" + keys[0] + "</span> ขา"),
     answers: [[true, corrects[0]], [true, corrects[1]], [false, wrong]],
+  };
+}
+
+// Logo
+LGs['x3_logo'] = function () {
+  return {
+    question: 'yay',
+    answers: [[true, 1], [true, 2], [true, 3], [false, 4]],
   };
 }

@@ -5,7 +5,9 @@ $(function () {
   const FRAME_RATE = 25;
 
   const LEVELS = [
+    'x3_logo',
     'simple_arith',
+    'day_of_the_week',
     'province',
     'geography_trivia',
     'letter_before_eng',
@@ -25,7 +27,9 @@ $(function () {
     'blue_whale',
     'water_pun',
     'x3_animal',
+    'x3_hormone',
     'x3_fruit',
+    'x3_spelling',
   ];
   const NUM_EASY_LEVELS = LEVELS.length;
 
@@ -74,6 +78,7 @@ $(function () {
         .append(answer[1])
         .click(answerClickHandler));
     });
+    $('#pane-answers').toggleClass('grid', currentLevel.answers.length == 4);
     // Update the HUD
     $('#pane-progress').text(
       'Level ' + (currentLevelNum + 1) + ' / ' + NUM_EASY_LEVELS);
