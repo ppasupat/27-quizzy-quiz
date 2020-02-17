@@ -183,7 +183,7 @@ LGs['thai_trivia'] = function () {
     ["โรงภาพยนตร์", "รัชกาลที่ 9", "รัชกาลที่ 7"],
   ]);
   return {
-    question: $('<p>').append('<span class=emp>' + qa[0] + '</span> มีในไทยเมื่อใด'),
+    question: $('<p>').append('<span class=emp>' + qa[0] + '</span><br>มีในไทยเมื่อใด'),
     answers: [[true, qa[1]], [false, qa[2]]],
   };
 }
@@ -240,7 +240,7 @@ LGs['crow_color'] = function () {
   let qas = randTwoChoices([
     ["red", "สีแดง", "กาชาด"],
     ["orange", "สีส้ม", "การ์ฟีลด์"],
-    ["gold", "สีเหลือง", "กาสาวพัสตร์"],
+    ["#CCCC00", "สีเหลือง", "กาสาวพัสตร์"],
     ["brown", "สีน้ำตาล", "กาแฟนม"],
     ["green", "สีเขียว", "กาฝาก"],
     ["gray", "สีเทา", "กาน้ำเหล็ก"],
@@ -270,8 +270,7 @@ LGs['physician'] = function () {
     ["ทางเดินฉี่", "Urologist"],
   ]);
   return {
-    question: $('<p>').append('หมออะไรดูแลโรค')
-      .append($('<span class=emp>').text(qas[0][0])),
+    question: $('<p>').append('หมออะไรดูแลโรค<br><span class=emp>' + qas[0][0] + '</span>'),
     answers: [[true, qas[0][1]], [false, qas[1][1]]],
   };
 }
@@ -291,8 +290,7 @@ LGs['fish_pun'] = function () {
     ["เป็นลูกไก่", "ปลาช่อน"],
   ]);
   return {
-    question: $('<p>').append('ปลาอะไร')
-      .append($('<span class=emp>').text(qas[0][0])),
+    question: $('<p>').append('ปลาอะไร<br><span class=emp>' + qas[0][0] + '</span>'),
     answers: [[true, qas[0][1]], [false, qas[1][1]]],
   };
 }
@@ -302,14 +300,17 @@ LGs['province_pun'] = function () {
   let qas = randTwoChoices([
     ["เณรเยอะ", "พะเยา"],
     ["ช้างกลัว", "พังงา"],
-    ["แห้งผาก", "ตาก"],
+    ["แห้ง", "ตาก"],
     ["ผีกล้วยกลัว", "ปัตตานี"],
     ["ข้าวลอย", "นครนายก"],
+    ["แม่ค้าเยอะ", "ตราด"],
+    ["สัตว์ป่าเกรงกลัว", "นครราชสีมา"],
     ["ต้องย้อนกลับ", "เลย"],
+    ["ไม่ได้อยู่นี่", "น่าน"],
+    ["พี่พ่อเย็น", "พัทลุง"],
   ]);
   return {
-    question: $('<p>').append('จังหวัดอะไร')
-      .append($('<span class=emp>').text(qas[0][0])),
+    question: $('<p>').append('จังหวัดอะไร<br><span class=emp>' + qas[0][0] + '</span>'),
     answers: [[true, qas[0][1]], [false, qas[1][1]]],
   };
 }
@@ -386,9 +387,9 @@ LGs['x3_fruit'] = function () {
 // Hormones
 LGs['x3_hormone'] = function () {
   let corrects = randTwoChoices([
-    "Adrenaline", "Aldosterone", "ACTH",
+    "Adrenaline", "Aldosterone",
     "Calcitonin", "Cortisol", "Estrogen", "Gastrin",
-    "Glucagon", "Growth Hormone", "Insulin", "Leptin",
+    "Glucagon", "Insulin", "Leptin",
     "Melatonin", "Norepinephrine", "Oxytocin", "Progesterone",
     "Prolactin", "Serotonin", "Testosterone", "Thyroxine",
   ]);
@@ -423,27 +424,20 @@ LGs['x3_spelling'] = function () {
 LGs['x3_animal'] = function () {
   let bank = {
     "0": [
-      "งู", "ปลา", "ฉลาม", "หนอน",
-      "หอย", "เม่นทะเล", "พยาธิ", "แมงกะพรุน",
+      "กบแรกเกิด", "งูเห่า", "ปลา", "หนอน",
+      "หอย", "แมวน้ำ", "พยาธิ", "วาฬสีน้ำเงิน",
     ],
     "2": [
-      "นก", "ไก่", "เป็ด", "ห่าน",
-      "ค้างคาว", "คน",
+      "กบ สุวนันท์", "ค้างคาว", "เป็ด",
+      "นกแก้ว", "คนแขนขาด", "แมวมอง",
+      "หนูน้อยหมวกแดง",
     ],
     "4": [
-      "กบ", "หมี", "กวาง", "หมู",
-      "จระเข้", "ช้าง", "วัว", "ม้า",
-      "ควาย", "เต่า", "สุนัข", "แมว",
-    ],
-    "6": [
-      "แมลงวัน", "มด", "ผึ้ง", "ต่อ",
-      "ยุง", "ผีเสื้อ", "ตั๊กแตน", "ด้วง",
-    ],
-    "8": [
-      "เห็บ", "ไร", "แมงป่อง", "แมงมุม",
+      "กบ", "หมีขาว", "กวาง", "หนู",
+      "แมว", "ยีราฟ",
     ],
   };
-  let keys = randTwoChoices(["0", "2", "4", "6", "8"]);
+  let keys = randTwoChoices(["0", "2", "4"]);
   let corrects = randTwoChoices(bank[keys[0]]);
   let wrong = randChoice(bank[keys[1]]);
   return {

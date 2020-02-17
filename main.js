@@ -14,17 +14,17 @@ $(function () {
     'simple_arith_2',
     'country',
     'misnomer_trivia',
-    'province_pun',
     'simple_arith_parity',
     'thai_trivia',
     'physician',
     'letter_before_thai',
+    'shirt_color',
+    'province_pun',
     'simple_arith_parity_2',
     'fish_pun',
-    'shirt_color',
     'noun_unit',
-    'blue_whale',
     'water_pun',
+    'blue_whale',
     'x3_animal',
     'x3_hormone',
     'x3_fruit',
@@ -40,6 +40,8 @@ $(function () {
   function getTimeLimit() {
     if (currentMode === "easy")
       return 3000;
+    else if (currentLevel >= 20)
+      return 3500;
     else
       return 2000;
   }
@@ -82,8 +84,12 @@ $(function () {
     });
     $('#pane-answers').toggleClass('grid', currentLevel.answers.length === 4);
     // Update the HUD
-    $('#pane-progress').text(
-      'Level ' + (currentLevelNum + 1) + ' / ' + NUM_EASY_LEVELS);
+    $('#progress-text').text(
+      '' + (currentLevelNum + 1) + ' / ' + NUM_EASY_LEVELS);
+    $('#progress-bar').width((currentLevelNum + 1) * SCREEN_WIDTH / NUM_EASY_LEVELS);
+    $('#progress-bar-2').width(
+      Math.max(0, (currentLevelNum + 1 - NUM_EASY_LEVELS) * SCREEN_WIDTH /
+                  (NUM_HARD_LEVELS - NUM_EASY_LEVELS)));
     startTimer(getTimeLimit());
   };
 
