@@ -6,18 +6,29 @@ $(function () {
 
   const LEVELS = [
     'simple_arith',
-    'simple_arith',
-    'simple_arith',
+    'province',
+    'geography_trivia',
+    'letter_before_eng',
+    'crow_color',
+    'simple_arith_parity',
+    'country',
+    'misnomer_trivia',
+    'letter_before_thai',
+    'shirt_color',
+    'water_pun',
+    'blue_whale',
+    'fish_pun',
+    'x3_fruit',
   ];
-  const NUM_EASY_LEVELS = 1;
+  const NUM_EASY_LEVELS = LEVELS.length;
 
   let currentMode = null, currentLevelNum = 0, currentLevel = null;
 
   function getTimeLimit() {
     if (currentMode == "easy")
-      return 3000;
+      return 4000;
     else
-      return 1800;
+      return 3000;
   }
 
   // ################################
@@ -153,7 +164,12 @@ $(function () {
   };
 
   function showFail(failType) {
-    let message = randChoice(FAIL_MESSAGES[failType]);
+    let message;
+    if (failType == "correct" && currentLevel.message) {
+      message = currentLevel.message;
+    } else {
+      message = randChoice(FAIL_MESSAGES[failType]);
+    }
     $('#fail-image > img').hide();
     $('#fail-image-' + failType).show();
     $('#fail-line-0').text(message[0]);
