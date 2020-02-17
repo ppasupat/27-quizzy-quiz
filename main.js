@@ -10,14 +10,21 @@ $(function () {
     'geography_trivia',
     'letter_before_eng',
     'crow_color',
-    'simple_arith_parity',
+    'simple_arith_2',
     'country',
     'misnomer_trivia',
+    'province_pun',
+    'simple_arith_parity',
+    'thai_trivia',
+    'physician',
     'letter_before_thai',
-    'shirt_color',
-    'water_pun',
-    'blue_whale',
+    'simple_arith_parity_2',
     'fish_pun',
+    'shirt_color',
+    'noun_unit',
+    'blue_whale',
+    'water_pun',
+    'x3_animal',
     'x3_fruit',
   ];
   const NUM_EASY_LEVELS = LEVELS.length;
@@ -28,7 +35,7 @@ $(function () {
     if (currentMode == "easy")
       return 4000;
     else
-      return 3000;
+      return 2500;
   }
 
   // ################################

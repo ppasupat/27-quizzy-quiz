@@ -60,7 +60,31 @@ LGs['simple_arith'] = function () {
     ],
   };
 };
+LGs['simple_arith_2'] = function () {
+  let a = randChoice([3, 4, 5, 6, 7, 8, 9]);
+  let b = randChoice([3, 4, 5, 6, 7, 8, 9]);
+  let d = randChoice([[-1, 0], [1, 0], [0, -1], [0, 1]]);
+  return {
+    question: $('<p>').append("" + a + " × " + b),
+    answers: [
+      [true, "" + (a * b)],
+      [false, "" + ((a + d[0]) * (b + d[1]))],
+    ],
+  };
+};
 LGs['simple_arith_parity'] = function () {
+  let a = randChoice([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  let b = randChoice([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  let d = a * b;
+  return {
+    question: $('<p>').append("" + a + " × " + b),
+    answers: [
+      [true, d % 2 == 0 ? "คู่" : "คี่"],
+      [false, d % 2 == 0 ? "คี่" : "คู่"],
+    ],
+  };
+};
+LGs['simple_arith_parity_2'] = function () {
   let a = randChoice([1, 2, 3, 4, 5]);
   let b = randChoice([1, 2, 3, 4, 5]);
   let c = randChoice([1, 2, 3, 4, 5]);
@@ -135,13 +159,51 @@ LGs['geography_trivia'] = function () {
   };
 }
 
+// Thai Trivia
+LGs['thai_trivia'] = function () {
+  let qa = randChoice([
+    ["ธนบัตร", "รัชกาลที่ 5", "รัชกาลที่ 7"],
+    ["นามสกุล", "รัชกาลที่ 6", "รัชกาลที่ 4"],
+    ["ถนนแบบตะวันตก", "รัชกาลที่ 4", "รัชกาลที่ 6"],
+    ["หนังสือพิมพ์", "รัชกาลที่ 3", "รัชกาลที่ 5"],
+    ["รถไฟ", "รัชกาลที่ 5", "รัชกาลที่ 7"],
+    ["ธนาคารเอกชน", "รัชกาลที่ 5", "รัชกาลที่ 3"],
+    ["โรงภาพยนตร์", "รัชกาลที่ 9", "รัชกาลที่ 7"],
+  ]);
+  return {
+    question: $('<p>').append('<span class=emp>' + qa[0] + '</span> มีในไทยเมื่อใด'),
+    answers: [[true, qa[1]], [false, qa[2]]],
+  };
+}
+
+// Noun Unit
+LGs['noun_unit'] = function () {
+  let qa = randChoice([
+    ["พระพุทธรูป", "องค์", "รูป"],
+    ["ขลุ่ย", "เลา", "ลำ"],
+    ["พลั่ว", "เล่ม", "คัน"],
+    ["อิฐ", "แผ่น", "ตับ"],
+    ["เข็ม", "เล่ม", "แท่ง"],
+    ["ค้อน", "เต้า", "เล่ม"],
+    ["เจดีย์", "องค์", "ยอด"],
+    ["ชิงช้า", "อัน", "ตัว"],
+    ["ปรอท", "อัน", "แท่ง"],
+    ["ไม้ยมก", "ตัว", "หยัก"],
+    ["หวี", "เล่ม", "คัน"],
+  ]);
+  return {
+    question: $('<p>').append('ลักษณนามของ<br><span class=emp>' + qa[0] + '</span>'),
+    answers: [[true, qa[1]], [false, qa[2]]],
+  };
+}
+
 // Misnomer Trivia
 LGs['misnomer_trivia'] = function () {
   let qa = randChoice([
     ["<span class=emp>สงครามร้อยปี</span><br><span class=tiny>(อังกฤษ - ฝรั่งเศส)</span><br>ยาวกี่ปี", "116 ปี", "100 ปี"],
     ["<span class=emp>Thousand Islands</span><br><span class=tiny>(อเมริกา - แคนาดา)</span><br>มีกี่เกาะ ", "1864 เกาะ", "1000 เกาะ"],
     ["<span class=emp>เลขอารบิก</span>แต่แรกมาจากชาติใด", "อินเดีย", "จีน"],
-    ["<span class=emp>French Horn</span> มาจากชาติใด", "เยอรมัน", "อินเดีย"],
+    ["<span class=emp>French Horn</span> มาจากชาติใด", "เยอรมัน", "อิตาลี"],
     ["<span class=emp>หมากฮอสจีน</span>มาจากชาติใด", "เยอรมัน", "อินเดีย"],
     ["<span class=emp>กระเพาะปลา</span>เป็นอวัยวะอะไร", "ถุงลม", "ไต"],
     ["<span class=emp>ปูอัด</span>ทำมาจากอะไร", "ปลา", "กุ้ง"],
@@ -179,6 +241,29 @@ LGs['crow_color'] = function () {
   };
 }
 
+// Physician types
+LGs['physician'] = function () {
+  let qas = randTwoChoices([
+    ["หัวใจ", "Cardiologist"],
+    ["ผิวหนัง", "Dermatologist"],
+    ["ระบบฮอร์โมน", "Endocrinologist"],
+    ["ระบบย่อยอาหาร", "Gastroenterologist"],
+    ["เลือด", "Hematologist"],
+    ["ไต", "Nephrologist"],
+    ["มะเร็ง", "Oncologist"],
+    ["ตา", "Ophthalmologist"],
+    ["หูคอจมูก", "Otolaryngologist"],
+    ["ปอด", "Pulmonologist"],
+    ["ข้อ", "Rheumatologist"],
+    ["ทางเดินฉี่", "Urologist"],
+  ]);
+  return {
+    question: $('<p>').append('หมออะไรดูแลโรค')
+      .append($('<span class=emp>').text(qas[0][0])),
+    answers: [[true, qas[0][1]], [false, qas[1][1]]],
+  };
+}
+
 // Fish pun
 LGs['fish_pun'] = function () {
   let qas = randTwoChoices([
@@ -195,6 +280,23 @@ LGs['fish_pun'] = function () {
   ]);
   return {
     question: $('<p>').append('ปลาอะไร')
+      .append($('<span class=emp>').text(qas[0][0])),
+    answers: [[true, qas[0][1]], [false, qas[1][1]]],
+  };
+}
+
+// Province pun
+LGs['province_pun'] = function () {
+  let qas = randTwoChoices([
+    ["เณรเยอะ", "พะเยา"],
+    ["ช้างกลัว", "พังงา"],
+    ["แห้งผาก", "ตาก"],
+    ["ผีกล้วยกลัว", "ปัตตานี"],
+    ["ข้าวลอย", "นครนายก"],
+    ["ต้องย้อนกลับ", "เลย"],
+  ]);
+  return {
+    question: $('<p>').append('จังหวัดอะไร')
       .append($('<span class=emp>').text(qas[0][0])),
     answers: [[true, qas[0][1]], [false, qas[1][1]]],
   };
@@ -265,6 +367,39 @@ LGs['x3_fruit'] = function () {
   ]);
   return {
     question: $('<p>').append("ข้อใดเป็นชื่อ<span class=emp>ผลไม้</span>"),
+    answers: [[true, corrects[0]], [true, corrects[1]], [false, wrong]],
+  };
+}
+
+// Animal
+LGs['x3_animal'] = function () {
+  let bank = {
+    "0": [
+      "งู", "ปลา", "ฉลาม", "หนอน",
+      "หอย", "เม่นทะเล", "พยาธิ", "แมงกะพรุน",
+    ],
+    "2": [
+      "นก", "ไก่", "เป็ด", "ห่าน",
+      "ค้างคาว", "คน",
+    ],
+    "4": [
+      "กบ", "หมี", "กวาง", "หมู",
+      "จระเข้", "ช้าง", "วัว", "ม้า",
+      "ควาย", "เต่า", "สุนัข", "แมว",
+    ],
+    "6": [
+      "แมลงวัน", "มด", "ผึ้ง", "ต่อ",
+      "ยุง", "ผีเสื้อ", "ตั๊กแตน", "ด้วง",
+    ],
+    "8": [
+      "เห็บ", "ไร", "แมงป่อง", "แมงมุม",
+    ],
+  };
+  let keys = randTwoChoices(["0", "2", "4", "6", "8"]);
+  let corrects = randTwoChoices(bank[keys[0]]);
+  let wrong = randChoice(bank[keys[1]]);
+  return {
+    question: $('<p>').append("สัตว์ใดมี <span class=emp>" + keys[0] + "</span> ขา"),
     answers: [[true, corrects[0]], [true, corrects[1]], [false, wrong]],
   };
 }
