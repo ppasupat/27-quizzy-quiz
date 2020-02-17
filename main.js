@@ -14,7 +14,6 @@ $(function () {
   let currentMode = null, currentLevelNum = 0, currentLevel = null;
 
   function getTimeLimit() {
-    return 30000;   // TODO
     if (currentMode == "easy")
       return 3000;
     else
@@ -30,13 +29,15 @@ $(function () {
   }
 
   function showCover(name) {
-    if (!name) {
-      $('#cover-wrapper').hide();
-    } else {
-      $('#cover-wrapper').show();
-      $('.cover').hide();
+    $('#cover-wrapper').show();
+    $('.cover').hide();
+    if (name) {
       $('#cover-' + name).show();
     }
+  }
+
+  function hideCover() {
+    $('#cover-wrapper').hide();
   }
 
   // ################################
@@ -68,9 +69,14 @@ $(function () {
     let is_correct = currentLevel.answers[index][0];
     if (is_correct) {
       // The player failed to choose a wrong answer.
-      showCover('fail');
+      showCover();
+      thisAnswer.addClass('correct');
+      window.setTimeout(function () {
+        showFail('correct');
+      }, 500);
     } else {
       // The player correctly chose a wrong answer.
+      thisAnswer.addClass('incorrect');
       currentLevelNum++;
       if (currentLevelNum == NUM_EASY_LEVELS) {
         // Win!
@@ -102,7 +108,7 @@ $(function () {
     } else {
       $('#timer-bar').width(0);
       stopTimer();
-      showCover('fail');
+      showFail('timeout');
     }
   }
 
@@ -114,11 +120,49 @@ $(function () {
   }
 
   // ################################
-  // Special events
+  // Special screens
+
+  const FAIL_MESSAGES = {
+    correct: [
+      ["คุณตอบถูก", "ซึ่งเป็นสิ่งที่ผิด"],
+      ["คุณตอบถูก", "ซึ่งไม่ใช่สิ่งที่ถูก"],
+      ["จงตอบผิด", "อย่าตอบถูก"],
+      ["คำตอบถูก", "แต่เกมนี้ให้ตอบผิด"],
+      ["ถูกต้องนะคร้าบ", "แต่เขาให้ตอบผิด"],
+      ["ถูกต้องคะ", "ลองใหม่นะค่ะ"],
+      ["ตอบไม่ผิดนะ", "แต่ผิดคำสั่ง"],
+      ["ยินดีด้วย", "ซะเมื่อไร"],
+      ["ข้อนี้ถูกต้อง", "จึงไม่ควรถูกเลือก"],
+      ["ผิดเป็นครู", "คำตอบนี้ไม่เป็นครู"],
+      ["ถูกแล้วหละ", "ถูกหลอกให้ตอบถูก"],
+      ["ข้อที่ผิด", "คือข้ออื่น"],
+      ["ถูก", "ต้ม"],
+    ],
+    timeout: [
+      ["หมดเวลา", "สนุกแล้วสิ"],
+      ["หมดเวลา", "ต้องเร็วกว่านี้หน่อย"],
+      ["หมดเวลา", "ช้าไปหน่อยนะ"],
+      ["หมดเวลาแล้ว", "ที่ฉันมีเธอ"],
+      ["ช้าไปหน่อย", "เร็วขึ้นอีกนิดนะ"],
+      ["เวลาหมดแล้ว", "ลองใหม่นะ"],
+      ["เวลาหมดแล้ว", ":("],
+      ["เวลา", "มันหมดแล้ว"],
+      ["ช้าจัง", "เวลาหมดแล้ว"],
+      ["ช้าจุงเบย", "เวลาหมดงุงิ"],
+    ],
+  };
+
+  function showFail(failType) {
+    let message = randChoice(FAIL_MESSAGES[failType]);
+    $('#fail-image').removeClass().addClass(failType);
+    $('#fail-line-0').text(message[0]);
+    $('#fail-line-1').text(message[1]);
+    showCover('fail');
+  }
 
   $('#button-fail-ok').click(function (e) {
     setupLevel();
-    showCover(false);
+    hideCover();
   });
 
   function showEasyWin() {
@@ -132,9 +176,25 @@ $(function () {
     let thisButton = $(this);
     currentMode = "easy";   // TODO: Set this on the main menu
     currentLevelNum = 0;
-    showScene('game');
-    setupLevel();
+    showCountdown();
   });
+
+  function showCountdown() {
+    showCover('countdown');
+    let countdownCount = 4;
+    function decrementCountdown() {
+      countdownCount--;
+      if (countdownCount == 0) {
+        setupLevel();
+        showScene('game');
+        hideCover();
+      } else {
+        $('#countdown-number').text(countdownCount);
+        setTimeout(decrementCountdown, 500);
+      }
+    }
+    decrementCountdown();
+  }
 
   $('.button-exit').click(function (e) {
     showScene('menu');
@@ -160,7 +220,8 @@ $(function () {
   $(window).resize(resizeScreen);
 
   const imageList = [
-    "img/poop.png",
+    "img/checkmark.png",
+    "img/time.png",
   ];
   let numResourcesLeft = imageList.length;
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
