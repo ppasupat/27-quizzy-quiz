@@ -1,7 +1,6 @@
 $(function () {
   "use strict";
 
-  const DEBUG = false;
   const SCREEN_WIDTH = 500, SCREEN_HEIGHT = 700;
   const FRAME_RATE = 25;
 
@@ -15,6 +14,7 @@ $(function () {
   let currentMode = null, currentLevelNum = 0, currentLevel = null;
 
   function getTimeLimit() {
+    return 30000;   // TODO
     if (currentMode == "easy")
       return 3000;
     else
