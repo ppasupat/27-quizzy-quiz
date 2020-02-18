@@ -323,6 +323,7 @@ $(function () {
     let thisButton = $(this);
     currentMode = $('#game').hasClass('hard') ? 'hard' : 'easy';
     currentLevelNum = 0;
+    semiPenalty = false;
     showCountdown();
   });
 
