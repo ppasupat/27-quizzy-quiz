@@ -31,8 +31,7 @@ function randShuffle(stuff) {
 // Level generators
 
 /*
-A level generator is a function with no argument that returns
-the following object:
+A level generator is a function that returns:
   {
     question: something appendable to question-pane,
     answers: array of [is_correct, answer],
@@ -40,8 +39,8 @@ the following object:
   }.
 No need to shuffle the answers.
 
-A good template:
-    ["<span class=emp></span>", "", ""],
+The function can take an argument "utils" which provides
+special functions (see main.js).
 */
 
 // Mapping level name --> generator
@@ -446,10 +445,54 @@ LGs['x3_animal'] = function () {
   };
 }
 
-// Logo
-LGs['x3_logo'] = function () {
+// Pokemon
+LGs['x4_pokemon'] = function () {
+  let answers = [];
+  let corrects = randShuffle([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]).slice(0, 3);
+  let wrong = randRange(12);
+  corrects.forEach(function (x) {
+    answers.push(
+      [true, $('<div class=img-pokemon>').css({
+        'background-position-x': '' + (x * 130) + 'px',
+      })]);
+  });
+  answers.push(
+    [false, $('<div class=img-pokemon>').css({
+      'background-position-x': '' + (wrong * 130) + 'px',
+      'background-position-y': '130px',
+    })]);
   return {
-    question: 'yay',
-    answers: [[true, 1], [true, 2], [true, 3], [false, 4]],
+    question: $('<p>').append("ข้อใดเป็น<span class=emp>โปเกมอน</span>"),
+    answers: answers,
+  };
+}
+
+// ASEAN flags
+LGs['x4_asean'] = function () {
+  let answers = [];
+  let corrects = randShuffle([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 3);
+  let wrong = randRange(10);
+  corrects.forEach(function (x) {
+    answers.push(
+      [true, $('<div class=img-asean>').css({
+        'background-position-x': '' + (x * 130) + 'px',
+      })]);
+  });
+  answers.push(
+    [false, $('<div class=img-asean>').css({
+      'background-position-x': '' + (wrong * 130) + 'px',
+      'background-position-y': '130px',
+    })]);
+  return {
+    question: $('<p>').append("ข้อใดเป็น<br><span class=emp>ประเทศ ASEAN</span>"),
+    answers: answers,
+  };
+}
+
+// Last question
+LGs['x3_last'] = function (utils) {
+  return {
+    question: $('<p>').append("ใคร<span class=emp>น่ารัก</span>ที่สุด"),
+    answers: [[true, "ผู้เล่น"], [true, "ฉันเอง"], [true, utils.getPlayerName()]],
   };
 }

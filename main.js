@@ -29,9 +29,9 @@ $(function () {
     'x3_hormone',
     'x3_fruit',
     'x3_spelling',
-    'x3_logo',
-    'x3_logo',
-    'x3_logo',
+    'x4_pokemon',
+    'x4_asean',
+    'x3_last',
   ];
   const NUM_EASY_LEVELS = 20, NUM_HARD_LEVELS = 27;
 
@@ -39,8 +39,10 @@ $(function () {
 
   function getTimeLimit() {
     if (currentMode === "easy")
-      return 3000;
-    else if (currentLevel >= 20)
+      return 2500;
+    else if (currentLevel === NUM_HARD_LEVELS - 1)
+      return 6000;
+    else if (currentLevel >= NUM_EASY_LEVELS)
       return 3500;
     else
       return 2000;
@@ -69,9 +71,15 @@ $(function () {
   // ################################
   // Game logic
 
+  let utils = {
+    getPlayerName: function () {
+      return "ออย";
+    },
+  }
+
   function setupLevel() {
     // Generate the question
-    currentLevel = LGs[LEVELS[currentLevelNum]]();
+    currentLevel = LGs[LEVELS[currentLevelNum]](utils);
     randShuffle(currentLevel.answers);
     $('#pane-question').empty().append(currentLevel.question);
     $('#pane-answers').empty();
@@ -106,9 +114,6 @@ $(function () {
       if (currentMode === 'easy' && currentLevelNum === NUM_EASY_LEVELS) {
         showEasyWin();
         return;
-      } else if (currentMode === 'hard' && currentLevelNum === NUM_HARD_LEVELS) {
-        showHardWin();
-        return;
       } else {
         setupLevel();
       }
@@ -117,7 +122,7 @@ $(function () {
       showCover();
       window.setTimeout(function () {
         showFail(is_correct ? 'correct' : 'incorrect');
-      }, 500);
+      }, 700);
     }
   }
 
@@ -141,7 +146,16 @@ $(function () {
     } else {
       $('#timer-bar').width(0);
       stopTimer();
-      showFail('timeout');
+      $('.button-answer').addClass('disabled');
+      if (currentLevelNum === NUM_HARD_LEVELS - 1) {
+        // Last question is a trick question
+        showHardWin();
+      } else {
+        showCover();
+        window.setTimeout(function () {
+          showFail('timeout');
+        }, 700);
+      }
     }
   }
 
@@ -300,6 +314,8 @@ $(function () {
     "img/checkmark.png",
     "img/crossmark.png",
     "img/time.png",
+    "img/pokemon.png",
+    "img/asean.png",
   ];
   let numResourcesLeft = imageList.length;
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
