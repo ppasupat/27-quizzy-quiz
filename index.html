@@ -13,8 +13,13 @@
 <body>
   <div id=game-wrapper>
     <div id=game>
-      <div id=hard-bg></div>
+      <div id=hard-bg>
+        <div class="centerize fullscreen">
+          <img src='img/devil.png'>
+        </div>
+      </div>
       <div id=scene-menu class=scene>
+        <div id=cakefloor></div>
         <h1 id=title-easy>จงตอบถูก</h1>
         <h1 id=title-hard><span class=emp>อย่า</span>ตอบถูก</h1>
         <div id=button-start-wrapper class=centerize>
@@ -45,15 +50,16 @@
       <div id=scene-easy-win class=scene>
         <div class="fullscreen centerize">
           <h1 id=easy-win-title>ยินดีด้วย</h1>
-          <img id=easy-win-image src="img/cake.png">
-          <div class="button button-big button-exit">กลับเมนู</div>
+          <img id=easy-win-image src="img/nocake.png">
+          <div id=easy-win-confusion>???</div>
         </div>
       </div>
       <div id=scene-hard-win class=scene>
         <div class="fullscreen centerize">
-          <h1 id=easy-win-title>ยินดีด้วย</h1>
-          <img id=easy-win-image src="img/cake.png">
-          <div class="button button-big button-exit">กลับเมนู</div>
+          <h1 id=hard-win-title>ยินดีด้วย</h1>
+          <img id=hard-win-image src="img/cake.png">
+          <p id=hard-win-tagline>สุขสันต์วันเกิดครับ<br>ขอให้มีความสุขมาก ๆ นะ</p>
+          <div id=hard-win-exit class="button button-big button-exit">กลับเมนู</div>
         </div>
       </div>
       <div id=scene-preload class=scene>
@@ -75,6 +81,15 @@
         </div>
         <div id=cover-countdown class="cover centerize">
           <p id=countdown-number></p>
+        </div>
+        <div id=cover-devil class="cover centerize">
+          <div id=devil-img></div>
+          <div id=devil-speech>
+            <p>555+</p>
+            <p>ถ้าอยากได้เค้กคืน</p>
+            <p>ก็จงตามข้ามาใน<span class=emp>นรก</span>!</p>
+          </div>
+          <div id=easy-win-exit class="button button-big button-exit">กลับเมนู</div>
         </div>
       </div>
     </div>

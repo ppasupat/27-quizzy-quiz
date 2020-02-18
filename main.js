@@ -39,9 +39,9 @@ $(function () {
 
   function getTimeLimit() {
     if (currentMode === "easy")
-      return 2500;
+      return 2000;
     else if (currentLevel === NUM_HARD_LEVELS - 1)
-      return 6000;
+      return 10000;
     else if (currentLevel >= NUM_EASY_LEVELS)
       return 3500;
     else
@@ -67,6 +67,32 @@ $(function () {
   function hideCover() {
     $('#cover-wrapper').hide();
   }
+
+  // ################################
+  // Persistence
+
+  // settings has the following keys:
+  //   hard_mode: 0 = locked; 1 = unlocked but not done; 2 = unlocked and done
+  let settings = {};
+
+  function loadSettings() {
+    let settings_raw = localStorage.getItem('quizzy-quiz');
+    if (settings_raw === null) {
+      settings = {hard_mode: 0};
+    } else {
+      settings = JSON.parse(settings_raw);
+    }
+  }
+
+  function saveSettings() {
+    try {
+      localStorage.setItem('quizzy-quiz', JSON.stringify(settings));
+    } catch (e) {
+      alert("ERROR: " + e.message);
+    }
+  }
+
+  loadSettings();
 
   // ################################
   // Game logic
@@ -113,6 +139,9 @@ $(function () {
       currentLevelNum++;
       if (currentMode === 'easy' && currentLevelNum === NUM_EASY_LEVELS) {
         showEasyWin();
+        return;
+      } else if (currentMode === 'hard' && currentLevelNum === NUM_HARD_LEVELS) {
+        showHardWin();
         return;
       } else {
         setupLevel();
@@ -167,7 +196,7 @@ $(function () {
   }
 
   // ################################
-  // Special screens
+  // Fail screens
 
   const FAIL_MESSAGES = {
     incorrect: [
@@ -248,16 +277,47 @@ $(function () {
     hideCover();
   });
 
+  // ################################
+  // Win screens
+
   function showEasyWin() {
+    if (settings.hard_mode < 1) {
+      settings.hard_mode = 1;
+      saveSettings();
+    }
+    $('#scene-easy-win').removeClass('confused');
     showScene('easy-win');
+    window.setTimeout(function () {
+      $('#easy-win-confusion').css(
+        'top', $('#easy-win-image').position().top - $('#scene-easy-win').position().top + 20);
+      $('#scene-easy-win').addClass('confused');
+      window.setTimeout(function () {
+        showCover('devil');
+      }, 1500);
+    }, 2000);
   }
 
   function showHardWin() {
-    showScene('hard-win');
+    if (settings.hard_mode < 2) {
+      settings.hard_mode = 2;
+      saveSettings();
+    }
+    $('#countdown-number').text('...');
+    showCover('countdown');
+    window.setTimeout(function () {
+      showScene('hard-win');
+      $('#cover-wrapper').fadeOut(400);
+    }, 1000);
   }
 
   // ################################
   // Main menu
+
+  function setupMenu() {
+    $('#checkbox-hard-wrapper').css(
+      'visibility', settings.hard_mode >= 1 ? 'visible' : 'hidden');
+    $('#cakefloor').toggle(settings.hard_mode >= 2);
+  }
 
   $('#button-start').click(function (e) {
     let thisButton = $(this);
@@ -288,6 +348,8 @@ $(function () {
   });
 
   $('.button-exit').click(function (e) {
+    hideCover();
+    setupMenu();
     showScene('menu');
   });
 
@@ -316,6 +378,8 @@ $(function () {
     "img/time.png",
     "img/pokemon.png",
     "img/asean.png",
+    "img/devil.png",
+    "img/cakefloor.png",
   ];
   let numResourcesLeft = imageList.length;
   $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');
@@ -323,6 +387,7 @@ $(function () {
   function decrementPreload () {
     numResourcesLeft--;
     if (numResourcesLeft === 0) {
+      setupMenu();
       showScene('menu');
     } else {
       $('#pane-loading').text('Loading resources (' + numResourcesLeft + ' left)');

@@ -86,6 +86,9 @@ div.scene, #cover-wrapper, #hard-bg {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+#hard-bg img {
+  opacity: 0.07;
+}
 
 /* ################################ */
 /* preload scene */
@@ -135,10 +138,11 @@ div.scene, #cover-wrapper, #hard-bg {
   height: 100px;
   flex-direction: row;
   font-size: 36px;
-  background-color: rgba(255, 200, 200, .6);
+  background-color: rgba(255, 200, 200, .9);
   box-shadow: 0px 2px 2px #a77;
   border-radius: 10px;
   cursor: pointer;
+  visibility: hidden;
 }
 #checkbox-hard {
   width: 50px;
@@ -153,6 +157,12 @@ div.scene, #cover-wrapper, #hard-bg {
 }
 #game.hard #checkbox-hard {
   color: black;
+}
+
+#cakefloor {
+  position: absolute;
+  bottom: 0; left: 0; right: 0; height: 200px;
+  background: url('img/cakefloor.png');
 }
 
 /* ################################ */
@@ -289,16 +299,71 @@ div.scene, #cover-wrapper, #hard-bg {
   font-weight: bold;
 }
 
-#easy-win-title {
+#easy-win-title, #hard-win-title {
   font-size: 80px;
   position: relative;
   animation: title-fadein-win 2s;
+  text-shadow: 2px 2px 0 #aaa, 5px 4px 0 rgba(0,0,0,0.15);
 }
 @keyframes title-fadein-win {
   from { opacity: 0; top: -50px; }
   to { opacity: 1; top: 0; }
 }
 
-#easy-win-image {
+#easy-win-image, #hard-win-image {
   margin: 30px 0;
 }
+
+#easy-win-confusion {
+  display: none;
+  font-size: 100px;
+  position: absolute;
+  color: #a00;
+  font-weight: bold;
+}
+#scene-easy-win.confused #easy-win-confusion {
+  display: block;
+}
+
+#cover-devil {
+  background-color: rgba(250, 230, 230, 0.9);
+  animation: bg-fadein 2s;
+}
+#devil-img {
+  background: url('img/devil.png');
+  height: 280px;
+  width: 300px;
+  background-size: 300px;
+}
+#devil-speech {
+  background-color: white;
+  border: 2px solid #222;
+  border-radius: 20px;
+  padding: 15px;
+  width: 90%;
+  font-size: 42px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+#devil-speech p:nth-child(1) {
+  font-size: 100px;
+  font-weight: bold;
+  color: red;
+}
+
+#scene-hard-win {
+  background: radial-gradient(circle, #fcff9e 0%, #c67700 100%); 
+}
+#hard-win-tagline {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  animation: tagline-fadein-win 3s;
+  text-shadow: 2px 2px 0 #aaa, 5px 4px 0 rgba(0,0,0,0.15);
+}
+@keyframes tagline-fadein-win {
+  from { opacity: 0; top: 50px; }
+  to { opacity: 1; top: 0; }
+}
+
