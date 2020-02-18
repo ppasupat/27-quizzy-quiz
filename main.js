@@ -39,13 +39,13 @@ $(function () {
 
   function getTimeLimit() {
     if (currentMode === "easy")
-      return 2000;
-    else if (currentLevel === NUM_HARD_LEVELS - 1)
-      return 10000;
-    else if (currentLevel >= NUM_EASY_LEVELS)
-      return 3500;
+      return 1800;
+    else if (currentLevelNum === NUM_HARD_LEVELS - 1)
+      return 8000;
+    else if (currentLevelNum >= NUM_EASY_LEVELS)
+      return 2500;
     else
-      return 2000;
+      return 1800;
   }
 
   // ################################
